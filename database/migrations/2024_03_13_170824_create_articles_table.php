@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('marketing_id');
             $table->foreign('marketing_id')->references('id')->on('marketings')->onDelete('cascade');
-            $table->string('article')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->unsignedBigInteger('unit_id')->nullable();         
+            $table->unsignedBigInteger('master_article_id');
+            $table->foreign('master_article_id')->references('id')->on('master_articles')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->unsignedBigInteger('unit_id');         
             $table->foreign('unit_id')->references('id')->on('master_satuans')->onDelete('cascade');
             $table->timestamps();
         });

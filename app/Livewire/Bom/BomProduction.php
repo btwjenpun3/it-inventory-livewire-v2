@@ -5,7 +5,9 @@ namespace App\Livewire\Bom;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Marketing\Article;
+use App\Models\Master\MasterMaterial as Material;
 use App\Models\Master\MasterMaterialType as MaterialType;
+use App\Models\Master\MasterProcurement as Procurement;
 use App\Models\Master\MasterSatuan as Unit;
 use App\Models\Bom\BomProduction as Bom;
 use App\Models\Bom\BomProductionDetail as BomDetail;
@@ -17,7 +19,7 @@ class BomProduction extends Component
 
     public $article_id, $article_no, $article_no_;
 
-    public $bomId, $bomCode, $bomName, $bomDescription, $bomStatus, $bomMaterialType;
+    public $bomId, $bomCode, $bomName, $bomDescription, $bomStatus, $bomMaterialType, $bomArticleQuantity, $bomArticleUnit;
     public $bomRows = [];
 
     public $bomId_, $bomCode_, $bomName_, $bomDescription_, $bomStatus_, $bomMaterialType_;
@@ -30,6 +32,7 @@ class BomProduction extends Component
             'bomIngredient' => '',
             'bomQuantity' => '',
             'bomUnit' => '',
+            'bomProcurement' => '',
             'bomLevel' => ''
         );
     }
@@ -49,7 +52,9 @@ class BomProduction extends Component
     {
         $data = Article::where('id', $id)->first();
         $this->article_id = $id;
-        $this->article_no = $data->article;          
+        $this->article_no = $data->article->article_name;    
+        $this->bomArticleQuantity = $data->quantity; 
+        $this->bomArticleUnit = $data->unit->satuan;     
     }
     public function showBomDetail($id)
     {
@@ -122,7 +127,9 @@ class BomProduction extends Component
             'articles' => Article::when(isset($this->id), function($query) {
                             $query->where('marketing_id', $this->id);
                         })->get(),
+            'materials' => Material::get(),
             'materialTypes' => MaterialType::get(),
+            'procurements' => Procurement::get(),
             'units' => Unit::get()
         ]);
     }

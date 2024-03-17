@@ -25,6 +25,7 @@ Route::prefix('/master')
     ->controller(MasterController::class)
     ->group(function() {
         Route::get('/allocation', 'allocation')->name('allocation');
+        Route::get('/article', 'article')->name('article');
         Route::get('/buyer', 'buyer')->name('buyer');
         Route::get('/material', 'material')->name('material');
         Route::get('/material-type', 'materialType')->name('material.type');
@@ -32,11 +33,15 @@ Route::prefix('/master')
         Route::get('/account', 'account')->name('account');
         Route::get('/jenis-bc', 'jenisBc')->name('jenis.bc');
         Route::get('/group', 'group')->name('group');
+        Route::get('/procurement', 'procurement')->name('procurement');
         Route::get('/purchase-order', 'purchaseOrder')->name('purchase.order');
         Route::get('/tujuan', 'tujuan')->name('tujuan');
         Route::get('/currency', 'currency')->name('currency');
         Route::get('/pic', 'pic')->name('pic');
         Route::get('/supplier', 'supplier')->name('supplier');
+        Route::get('/rak', 'rak')->name('rak');
+        Route::get('/warehouse', 'warehouse')->name('warehouse');
+        Route::get('/location', 'location')->name('location');
     });
 
 Route::prefix('/marketing')

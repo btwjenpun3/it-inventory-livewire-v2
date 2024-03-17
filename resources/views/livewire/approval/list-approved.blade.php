@@ -71,8 +71,8 @@
         wire:ignore.self>
         <div class="modal-dialog modal-full-width modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title text-white">Order Production Detail</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Production Detail : #{{ $order_production_no }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div wire:target="updateConfirm" wire:loading>
@@ -82,163 +82,160 @@
                 </div>
                 <div wire:target="updateConfirm" wire:loading.remove>
                     <div class="modal-body">
-                        <div class="card card-body">
-                            <div class="col-md-12 text-center">
-                                <h2>Order Production</h2>
-                                <hr>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>PO Buyer No.</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $po_buyer_no }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>PO Buyer Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $po_buyer_date }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>Buyer Code</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $buyer_code }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Buyer Name</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $buyer_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>Shipping Date</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $shipping_date }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Delivery Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $delivery_date }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Due Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $due_date }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <table class="table table-bordered table-sm table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Article / Style</th>
-                                        <th>Quantity</th>
-                                        <th>Unit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (isset($articles))
-                                        @php
-                                            $i = 1;
-                                        @endphp
-                                        @foreach ($articles as $article)
-                                            <tr>
-                                                <td class="w-7">
-                                                    {{ $i++ }}
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->article }}</p>
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->quantity }}</p>
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->unit->satuan }}</p>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                            <div class="col-md-12 mt-3">
+                        <div class="col-md-12 text-center">
+                            <h2 class="bg-primary text-primary-fg py-2">Order Production</h2>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3 text-center">
-                                            <img src="/img/approve.jpeg" style="width:300px;">
+                                    <div class="col-md-4">
+                                        <b>PO Buyer No.</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $po_buyer_no }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>PO Buyer Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $po_buyer_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <b>Buyer Code</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $buyer_code }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Buyer Name</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $buyer_name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <b>Shipping Date</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $shipping_date }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Delivery Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $delivery_date }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Due Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $due_date }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Article / Style</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($articles))
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($articles as $article)
+                                        <tr>
+                                            <td class="w-7">
+                                                {{ $i++ }}
+                                            </td>
+                                            <td>
+                                                {{ $article->article->article_name }}
+                                            </td>
+                                            <td>
+                                                {{ $article->quantity }}
+                                            </td>
+                                            <td>
+                                                {{ $article->unit->satuan }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 mt-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 text-center">
+                                        <img src="/img/approve.jpeg" style="width:300px;">
+                                    </div>
+                                    <div class="d-flex justify-content-center align-self-end">
+                                        <p><b>Approved by :</b> Helmi</p>
+                                        <p class="mx-6"><b>Approved Date :</b> 20/12/2024</p>
+                                        <p class="text-success"><b>Order Production :</b>
+                                            {{ $order_production_no }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>PIC</b>
+                                            </label>
                                         </div>
-                                        <div class="d-flex justify-content-center align-self-end">
-                                            <p><b>Approved by :</b> Helmi</p>
-                                            <p class="mx-6"><b>Approved Date :</b> 20/12/2024</p>
-                                            <p class="text-success"><b>Order Production :</b>
-                                                {{ $order_production_no }}</p>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $pic }}
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>PIC</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $pic }}
-                                            </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Currency</b>
+                                            </label>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Currency</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $currency }}
-                                            </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $currency }}
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Discount</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $discount }}
-                                            </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Discount</b>
+                                            </label>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>DP</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $down_payment }}
-                                            </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $discount }}
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Tax</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $tax }}%
-                                            </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>DP</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $down_payment }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Tax</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $tax }}%
                                         </div>
                                     </div>
                                 </div>

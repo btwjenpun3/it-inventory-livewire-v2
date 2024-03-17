@@ -81,184 +81,176 @@
                 </div>
                 <div wire:target="updateConfirm" wire:loading.remove>
                     <div class="modal-body">
-                        <div class="card card-body">
-                            <div class="col-md-12 text-center">
-                                <h2>Order Production</h2>
-                                <hr>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>PO Buyer No.</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $po_buyer_no }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>PO Buyer Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $po_buyer_date }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>Buyer Code</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $buyer_code }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Buyer Name</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $buyer_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <b>Shipping Date</b>
-                                        </div>
-                                        <div class="col-md-6 border-bottom">
-                                            {{ $shipping_date }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Delivery Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $delivery_date }}
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <b>Due Date</b>
-                                        </div>
-                                        <div class="col-md-6 mt-3 border-bottom">
-                                            {{ $due_date }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <table class="table table-bordered table-sm table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Article / Style</th>
-                                        <th>Quantity</th>
-                                        <th>Unit</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (isset($articles))
-                                        @php
-                                            $i = 1;
-                                        @endphp
-                                        @foreach ($articles as $article)
-                                            <tr>
-                                                <td class="w-7">
-                                                    {{ $i++ }}
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->article }}</p>
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->quantity }}</p>
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->unit->satuan }}</p>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                            <div class="col-md-12 mt-3">
+                        <div class="col-md-12 text-center">
+                            <h2 class="bg-primary text-primary-fg py-2">Order Production</h2>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-4">
                                 <div class="row">
-                                    <div class="col-md-8 d-flex justify-content-start align-self-end">
-                                        <div class="text-center mx-6">
-                                            <button class="btn btn-danger" data-bs-toggle="collapse"
-                                                data-bs-target="#reject-collapse">
-                                                Reject
-                                            </button>
-                                            <div class="collapse mt-3" id="reject-collapse">
-                                                <div class="card card-body">
-                                                    <p>Are you sure want to reject this Order Production ?</p>
-                                                    <button class="btn btn-danger" wire:click="reject"
-                                                        wire:loading.attr="disabled">
-                                                        Yes
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-center mx-6">
-                                            <button class="btn btn-success" data-bs-toggle="collapse"
-                                                data-bs-target="#approve-collapse">
-                                                Approve
-                                            </button>
-                                            <div class="collapse mt-3" id="approve-collapse">
-                                                <div class="card card-body">
-                                                    <p>Are you sure want to approve this Order Production ?</p>
-                                                    <button class="btn btn-success" wire:click="approve"
-                                                        wire:loading.attr="disabled">
-                                                        Yes
-                                                    </button>
-                                                </div>
+                                    <div class="col-md-4">
+                                        <b>PO Buyer No.</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $po_buyer_no }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>PO Buyer Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $po_buyer_date }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <b>Buyer Code</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $buyer_code }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Buyer Name</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $buyer_name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <b>Shipping Date</b>
+                                    </div>
+                                    <div class="col-md-6 border-bottom">
+                                        {{ $shipping_date }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Delivery Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $delivery_date }}
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <b>Due Date</b>
+                                    </div>
+                                    <div class="col-md-6 mt-3 border-bottom">
+                                        {{ $due_date }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Article / Style</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($articles))
+                                    @foreach ($articles as $article)
+                                        <tr>
+                                            <td class="w-7">{{ $loop->iteration }}</td>
+                                            <td>
+                                                {{ $article->article->article_name }}
+                                            </td>
+                                            <td>
+                                                {{ $article->quantity }}
+                                            </td>
+                                            <td>
+                                                {{ $article->unit->satuan }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                        <div class="col-md-12 mt-3">
+                            <div class="row">
+                                <div class="col-md-8 d-flex justify-content-start align-self-end">
+                                    <div class="text-center mx-6">
+                                        <button class="btn btn-danger" data-bs-toggle="collapse"
+                                            data-bs-target="#reject-collapse">
+                                            Reject
+                                        </button>
+                                        <div class="collapse mt-3" id="reject-collapse">
+                                            <div class="card card-body">
+                                                <p>Are you sure want to reject this Order Production ?</p>
+                                                <button class="btn btn-danger" wire:click="reject"
+                                                    wire:loading.attr="disabled">
+                                                    Yes
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>PIC</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $pic }}
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Currency</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $currency }}
+                                    <div class="text-center mx-6">
+                                        <button class="btn btn-success" data-bs-toggle="collapse"
+                                            data-bs-target="#approve-collapse">
+                                            Approve
+                                        </button>
+                                        <div class="collapse mt-3" id="approve-collapse">
+                                            <div class="card card-body">
+                                                <p>Are you sure want to approve this Order Production ?</p>
+                                                <button class="btn btn-success" wire:click="approve"
+                                                    wire:loading.attr="disabled">
+                                                    Yes
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Discount</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $discount }}
-                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>PIC</b>
+                                            </label>
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>DP</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $down_payment }}
-                                            </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $pic }}
                                         </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label class="form-label">
-                                                    <b>Tax</b>
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8 border-bottom">
-                                                {{ $tax }}%
-                                            </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Currency</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $currency }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Discount</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $discount }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>DP</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $down_payment }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label">
+                                                <b>Tax</b>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 border-bottom">
+                                            {{ $tax }}%
                                         </div>
                                     </div>
                                 </div>

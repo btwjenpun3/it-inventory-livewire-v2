@@ -3,6 +3,7 @@
 namespace App\Livewire\Marketing;
 
 use App\Models\Marketing\Article;
+use App\Models\Master\MasterArticle;
 use App\Models\Marketing\Marketing as Md;
 use App\Models\Master\MasterBuyer as Buyer;
 use App\Models\Master\MasterSatuan as Unit;
@@ -76,7 +77,7 @@ class Marketing extends Component
                 foreach($this->rows as $row) {
                     Article::create([
                         'marketing_id' => $marketing->id,
-                        'article' => $row['article'],
+                        'master_article_id' => $row['article'],
                         'quantity' => $row['quantity'],
                         'unit_id' => $row['unit']
                     ]);
@@ -156,6 +157,7 @@ class Marketing extends Component
     {
         return view('livewire.marketing.marketing', [
             'data' => Md::orderBy('id', 'desc')->where('validate', 'Waiting')->paginate(10),
+            'articles' => MasterArticle::get(),
             'buyers' => Buyer::get(),
             'units' => Unit::get(),
             'pics' => Pic::get(),

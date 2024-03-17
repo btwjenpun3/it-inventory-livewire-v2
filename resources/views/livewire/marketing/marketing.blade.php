@@ -211,24 +211,36 @@
                                         <th>#</th>
                                         <th>Article / Style</th>
                                         <th>Quantity</th>
-                                        <th>Unit</th>
+                                        <th>UoM</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($rows as $key => $row)
                                         <tr>
-                                            <td class="w-7">
-                                                <input type="text" class="form-control"
-                                                    wire:model="rows.{{ $key }}.no">
-                                            </td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                <input type="text"
-                                                    class="form-control @error('rows.{{ $key }}.article') is-invalid @enderror"
-                                                    wire:model="rows.{{ $key }}.article">
-                                                @error('rows.{{ $key }}.article')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                                @if (count($articles) > 0)
+                                                    <select
+                                                        class="form-control @error('rows.{{ $key }}.article') is-invalid @enderror"
+                                                        wire:model="rows.{{ $key }}.article">
+                                                        <option value="">-- Select --</option>
+                                                        @foreach ($articles as $a)
+                                                            <option value="{{ $a->id }}">
+                                                                {{ $a->article_code }} -
+                                                                {{ $a->article_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('rows.{{ $key }}.article')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                @else
+                                                    <p class="mt-3">
+                                                        Not found. Please create from <a
+                                                            href="{{ route('master.article') }}">Master
+                                                            Article</a>.
+                                                    </p>
+                                                @endif
                                             </td>
                                             <td>
                                                 <input type="number"
@@ -408,11 +420,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="collapse ms-auto m-3" id="save-collapse">
-                    Are you sure want to save this and forward to <b>Approval Department</b> ?
-                    <button class="btn btn-success ms-3" wire:click="save" wire:loading.attr="disabled">
-                        Yes
-                    </button>
+                <div class="collapse" id="save-collapse">
+                    <div class="d-flex justify-content-end mx-3 mb-3">
+                        <p>Are you sure want to save this and forward to <b>Approval Department</b> ?</p>
+                        <button class="btn btn-success ms-3" wire:click="save" wire:loading.attr="disabled">
+                            Yes
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -524,22 +538,17 @@
                                 </thead>
                                 <tbody>
                                     @if (isset($articles_))
-                                        @php
-                                            $i = 1;
-                                        @endphp
                                         @foreach ($articles_ as $article)
                                             <tr>
-                                                <td class="w-7">
-                                                    {{ $i++ }}
+                                                <td> {{ $loop->iteration }} </td>
+                                                <td>
+                                                    {{ $article->article->article_name }}
                                                 </td>
                                                 <td>
-                                                    <p>{{ $article->article }}</p>
+                                                    {{ $article->quantity }}
                                                 </td>
                                                 <td>
-                                                    <p>{{ $article->quantity }}</p>
-                                                </td>
-                                                <td>
-                                                    <p>{{ $article->unit->satuan }}</p>
+                                                    {{ $article->unit->satuan }}
                                                 </td>
                                             </tr>
                                         @endforeach

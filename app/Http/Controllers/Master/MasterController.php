@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class MasterController extends Controller
-{    
+{   
+    public function article()
+    {
+        return view('pages.master.master-article');
+    }
+
     public function buyer()
     {
         return view('pages.master.master-buyer');
@@ -25,6 +30,11 @@ class MasterController extends Controller
     public function satuan()
     {
         return view('pages.master.master-satuan');
+    }
+
+    public function procurement()
+    {
+        return view('pages.master.master-procurement');
     }
 
     public function account()
@@ -65,5 +75,20 @@ class MasterController extends Controller
     public function supplier()
     {
         return view('pages.master.master-supplier');
+    }
+
+    public function rak()
+    {
+        return view('pages.master.master-rak');
+    }
+
+    public function warehouse()
+    {
+        return view('pages.master.master-warehouse');
+    }
+
+    public function location()
+    {
+        return view('pages.master.master-location');
     }
 }

@@ -63,7 +63,7 @@
                 </div>
                 <div wire:target="show" wire:loading.remove>
                     <div class="modal-body">
-                        <h2 class="bg-primary text-primary-fg ps-3">Order Production : {{ $order_production_no }}</h2>
+                        <h3 class="bg-primary text-primary-fg ps-3">Order Production : {{ $order_production_no }}</h3>
                         <div class="row">
                             <div class="col-md-4">
                                 <table class="table table-sm table-hover table-vcenter table-bordered">
@@ -102,7 +102,7 @@
                                             <th>#</th>
                                             <th>Article / Style</th>
                                             <th>Quantity</th>
-                                            <th>Unit</th>
+                                            <th>UoM</th>
                                             <th>Bill of Materials</th>
                                         </tr>
                                     </thead>
@@ -110,7 +110,7 @@
                                         @foreach ($articles as $article)
                                             <tr wire:key="{{ $article->id }}">
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $article->article }}</td>
+                                                <td>{{ $article->article->article_name }}</td>
                                                 <td>{{ $article->quantity }}</td>
                                                 <td>{{ $article->unit->satuan }}</td>
                                                 <td>
@@ -169,147 +169,179 @@
                 </div>
                 <div class="modal-body">
                     <h3 class="border bg-primary text-primary-fg ps-3">BOM Info</h3>
-                    <div class="col-md-4">
-                        <table class="table table-sm table-hover table-vcenter table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>BOM Code</td>
-                                    <td>
-                                        <input type="text"
-                                            class="form-control form-control-sm @error('bomCode') is-invalid @enderror"
-                                            wire:model="bomCode">
-                                        @error('bomCode')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>BOM Name</td>
-                                    <td>
-                                        <input type="text"
-                                            class="form-control form-control-sm @error('bomName') is-invalid @enderror"
-                                            wire:model="bomName">
-                                        @error('bomName')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Description</td>
-                                    <td>
-                                        <input type="text"
-                                            class="form-control form-control-sm @error('bomDescription') is-invalid @enderror"
-                                            wire:model="bomDescription">
-                                        @error('bomDescription')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Status</td>
-                                    <td>
-                                        <select
-                                            class="form-select form-select-sm @error('bomStatus') is-invalid @enderror"
-                                            wire:model="bomStatus">
-                                            <option value="">-- Select --</option>
-                                            <option value="Aktif">Aktif</option>
-                                            <option value="Non-Aktif">Non-Aktif</option>
-                                        </select>
-                                        @error('bomStatus')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Material Type</td>
-                                    <td>
-                                        <select
-                                            class="form-select form-select-sm @error('bomStatus') is-invalid @enderror"
-                                            wire:model="bomMaterialType">
-                                            <option value="">-- Select --</option>
-                                            @foreach ($materialTypes as $m)
-                                                <option value="{{ $m->id }}">{{ $m->material_type }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('bomStatus')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <h3 class="border bg-primary text-primary-fg ps-3">BOM Material Details</h3>
-                    <div class="col-md-12">
-                        <table class="table table-sm table-hover table-vcenter table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th class="danger">Ga tau namanya</th>
-                                    <th>Material</th>
-                                    <th>Quantity</th>
-                                    <th>U/M</th>
-                                    <th>Level</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($bomRows as $key => $b)
-                                    <tr wire:key="{{ $key }}">
-                                        <td>{{ $loop->iteration }}</td>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <table class="table table-sm table-hover table-vcenter table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>BOM Code</td>
                                         <td>
-                                            <select class="form-select form-select-sm"
-                                                wire:model="bomRows.{{ $key }}.bomMaterial">
-                                                <option value="">-- Select --</option>
-                                                <option value="Raw Material">Raw Material</option>
-                                                <option value="Auxiliary Material">Auxiliary Material</option>
-                                                <option value="Accessories">Accessories</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm"
-                                                wire:model="bomRows.{{ $key }}.bomIngredient">
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm"
-                                                wire:model="bomRows.{{ $key }}.bomQuantity">
-                                        </td>
-                                        <td>
-                                            <select class="form-select form-select-sm"
-                                                wire:model="bomRows.{{ $key }}.bomUnit">
-                                                <option value="">-- Select --</option>
-                                                @foreach ($units as $u)
-                                                    <option value="{{ $u->id }}">{{ $u->satuan }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <select class="form-select form-select-sm"
-                                                wire:model="bomRows.{{ $key }}.bomLevel">
-                                                <option value="">-- Select --</option>
-                                                <option value="1">Level 1</option>
-                                                <option value="2">Level 2</option>
-                                                <option value="3">Level 3</option>
-                                                <option value="4">Level 4</option>
-                                                <option value="5">Level 5</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <div class="btn-list">
-                                                @if ($loop->last)
-                                                    <button class="btn btn-sm btn-link"
-                                                        wire:click="addRow">Add</button>
-                                                @endif
-                                                @if (!$loop->first)
-                                                    <button class="btn btn-sm btn-link text-danger"
-                                                        wire:click="removeRow({{ $key }})">Remove</button>
-                                                @endif
-                                            </div>
+                                            <input type="text"
+                                                class="form-control form-control-sm @error('bomCode') is-invalid @enderror"
+                                                wire:model="bomCode">
+                                            @error('bomCode')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td>BOM Name</td>
+                                        <td>
+                                            <input type="text"
+                                                class="form-control form-control-sm @error('bomName') is-invalid @enderror"
+                                                wire:model="bomName">
+                                            @error('bomName')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Description</td>
+                                        <td>
+                                            <input type="text"
+                                                class="form-control form-control-sm @error('bomDescription') is-invalid @enderror"
+                                                wire:model="bomDescription">
+                                            @error('bomDescription')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>
+                                            <select
+                                                class="form-select form-select-sm @error('bomStatus') is-invalid @enderror"
+                                                wire:model="bomStatus">
+                                                <option value="">-- Select --</option>
+                                                <option value="Aktif">Aktif</option>
+                                                <option value="Non-Aktif">Non-Aktif</option>
+                                            </select>
+                                            @error('bomStatus')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Material Type</td>
+                                        <td>
+                                            <select
+                                                class="form-select form-select-sm @error('bomStatus') is-invalid @enderror"
+                                                wire:model="bomMaterialType">
+                                                <option value="">-- Select --</option>
+                                                @foreach ($materialTypes as $m)
+                                                    <option value="{{ $m->id }}">{{ $m->material_type }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('bomStatus')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-sm table-hover table-vcenter table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Quantity</td>
+                                        <td>{{ $bomArticleQuantity }} {{ $bomArticleUnit }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h3 class="border bg-primary text-primary-fg ps-3">BOM Material Details</h3>
+                        <div class="col-md-12">
+                            <table class="table table-sm table-hover table-vcenter table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th></th>
+                                        <th>Material</th>
+                                        <th>Quantity</th>
+                                        <th>UoM</th>
+                                        <th>Level</th>
+                                        <th>Procurement</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($bomRows as $key => $b)
+                                        <tr wire:key="{{ $key }}">
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <select class="form-select form-select-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomMaterial">
+                                                    <option value="">-- Select --</option>
+                                                    <option value="Raw Material">Raw Material</option>
+                                                    <option value="Auxiliary Material">Auxiliary Material</option>
+                                                    <option value="Accessories">Accessories</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-select form-select-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomIngredient">
+                                                    <option value="">-- Select --</option>
+                                                    @foreach ($materials as $m)
+                                                        <option value="{{ $m->id }}">{{ $m->material_code }} -
+                                                            {{ $description }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomQuantity">
+                                            </td>
+                                            <td>
+                                                <select class="form-select form-select-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomUnit">
+                                                    <option value="">-- Select --</option>
+                                                    @foreach ($units as $u)
+                                                        <option value="{{ $u->id }}">{{ $u->satuan }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-select form-select-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomLevel">
+                                                    <option value="">-- Select --</option>
+                                                    <option value="1">Level 1</option>
+                                                    <option value="2">Level 2</option>
+                                                    <option value="3">Level 3</option>
+                                                    <option value="4">Level 4</option>
+                                                    <option value="5">Level 5</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-select form-select-sm"
+                                                    wire:model="bomRows.{{ $key }}.bomProcurement">
+                                                    <option value="">-- Select --</option>
+                                                    @foreach ($procurements as $procurement)
+                                                        <option value="{{ $procurement->id }}">
+                                                            {{ $procurement->procurement }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <div class="btn-list">
+                                                    @if ($loop->last)
+                                                        <button class="btn btn-sm btn-link"
+                                                            wire:click="addRow">Add</button>
+                                                    @endif
+                                                    @if (!$loop->first)
+                                                        <button class="btn btn-sm btn-link text-danger"
+                                                            wire:click="removeRow({{ $key }})">Remove</button>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -374,10 +406,10 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th class="danger">Ga tau namanya</th>
+                                    <th></th>
                                     <th>Material</th>
                                     <th>Quantity</th>
-                                    <th>U/M</th>
+                                    <th>UoM</th>
                                     <th>Level</th>
                                 </tr>
                             </thead>

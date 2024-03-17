@@ -71,7 +71,7 @@
         <div class="modal-dialog modal-full-width modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title">Order Production Detail</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div wire:target="updateConfirm" wire:loading>
@@ -83,8 +83,7 @@
                     <div class="modal-body">
                         <div class="card card-body">
                             <div class="col-md-12 text-center">
-                                <h2>Order Production</h2>
-                                <hr>
+                                <h2 class="bg-primary text-primary-fg py-2">Order Production</h2>
                             </div>
                             <div class="row mb-4">
                                 <div class="col-md-4">
@@ -162,7 +161,7 @@
                                                     {{ $i++ }}
                                                 </td>
                                                 <td>
-                                                    <p>{{ $article->article }}</p>
+                                                    <p>{{ $article->article->article_name }}</p>
                                                 </td>
                                                 <td>
                                                     <p>{{ $article->quantity }}</p>

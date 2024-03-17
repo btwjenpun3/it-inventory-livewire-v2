@@ -3,6 +3,7 @@
 namespace App\Models\Marketing;
 
 use App\Models\Bom\BomProduction;
+use App\Models\Master\MasterArticle;
 use App\Models\Master\MasterSatuan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,10 @@ class Article extends Model
     public function bom()
     {
         return $this->hasOne(BomProduction::class, 'article_id');
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(MasterArticle::class, 'master_article_id');
     }
 }
