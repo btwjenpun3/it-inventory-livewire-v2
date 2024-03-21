@@ -29,6 +29,8 @@ return new class extends Migration
             $table->unsignedBigInteger('procurement_id');
             $table->foreign('procurement_id')->references('id')->on('master_procurements')->onDelete('cascade');
             $table->string('note')->nullable();
+            $table->string('quantity_request')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
         });
     }

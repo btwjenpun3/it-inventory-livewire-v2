@@ -5,6 +5,7 @@ use App\Http\Controllers\Bom\BomProductionController;
 use App\Http\Controllers\Dashboard\DasboardController;
 use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Master\MasterController;
+use App\Http\Controllers\Ppic\MaterialRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -67,4 +68,11 @@ Route::prefix('/bill-of-material')
     ->controller(BomProductionController::class)
     ->group(function() {
         Route::get('/production', 'bomProduction')->name('production');
+    });
+
+Route::prefix('/ppic')
+    ->name('ppic.')
+    ->controller(MaterialRequest::class)
+    ->group(function() {
+        Route::get('/material-request', 'materialRequest')->name('material.request');
     });

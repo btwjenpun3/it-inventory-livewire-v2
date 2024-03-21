@@ -8,6 +8,8 @@ use App\Models\Master\MasterLocation;
 use App\Models\Master\MasterMaterial;
 use App\Models\Master\MasterProcurement as MasterMasterProcurement;
 use App\Models\Master\MasterSatuan;
+use App\Models\Ppic\BomMaterialRequest;
+use App\Models\Ppic\MaterialRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,4 +43,5 @@ class BomProductionDetail extends Model
     {
         return $this->belongsTo(MasterMasterProcurement::class, 'procurement_id');
     }
+    
 }

@@ -37,24 +37,32 @@ class BomProduction extends Component
 
     public function mount()
     {
-        $this->bomRows[] = [];
-    }
-
-    public function show($id)
-    {
-        $data = Marketing::where('id', $id)->first();
-        $this->id = $id;
-        $this->order_production_no = $data->order_production_no;
-        $this->po_buyer_no = $data->po_buyer_no;
-        $this->pic_name = $data->pic->name;
-        $this->buyer_code = $data->buyer->code_buyer;
-        $this->buyer_name = $data->buyer->buyer_name;
-
-    }    
+        $this->bomRows[] = array(
+            'bomMaterial' => '',
+            'bomIngredient' => '',
+            'bomConsumption' => '',
+            'bomQuantity' => '',
+            'bomUnit' => '',
+            'bomLocation' => '',
+            'bomLevel' => '',
+            'bomProcurement' => '',
+            'bomNote' => ''
+        );
+    }      
 
     public function addRow()
     {
-        $this->bomRows[] = [];
+        $this->bomRows[] = array(
+            'bomMaterial' => '',
+            'bomIngredient' => '',
+            'bomConsumption' => '',
+            'bomQuantity' => '',
+            'bomUnit' => '',
+            'bomLocation' => '',
+            'bomLevel' => '',
+            'bomProcurement' => '',
+            'bomNote' => ''
+        );
     }    
 
     public function removeRow($key)
@@ -82,6 +90,18 @@ class BomProduction extends Component
         }    
         
     }
+
+    public function show($id)
+    {
+        $data = Marketing::where('id', $id)->first();
+        $this->id = $id;
+        $this->order_production_no = $data->order_production_no;
+        $this->po_buyer_no = $data->po_buyer_no;
+        $this->pic_name = $data->pic->name;
+        $this->buyer_code = $data->buyer->code_buyer;
+        $this->buyer_name = $data->buyer->buyer_name;
+
+    }  
 
     public function showBom($id)
     {
@@ -113,7 +133,7 @@ class BomProduction extends Component
         $this->bomName_             = $data->bom->bom_name;
         $this->bomDescription_      = $data->bom->description;
         $this->bomStatus_           = $data->bom->status;
-        $this->bomMaterialType_     = $data->bom->material->material_type;
+        $this->bomMaterialType_     = $data->bom->materialType->material_type;
         $this->bomArticleQuantity   = $data->quantity;
         $this->bomArticleUnit       = $data->unit->satuan;
         $this->bomDetails           = $data->bom->details;
@@ -172,23 +192,28 @@ class BomProduction extends Component
                 'status' => $this->bomStatus
             ]);
             if($data) {
-                foreach($this->bomRows as $row) {                    
-                    BomDetail::create([
-                        'bom_production_id' => $data->id,
-                        'material_type' => $row['bomMaterial'],
-                        'material_id' => $row['bomIngredient'],
-                        'consumption' => $row['bomConsumption'],
-                        'total_quantity' => $row['bomQuantity'],
-                        'satuan_id' => $row['bomUnit'],
-                        'location_id' => $row['bomLocation'],
-                        'level_id' => $row['bomLevel'],
-                        'procurement_id' => $row['bomProcurement'],
-                        'note' => $row['bomNote']
-                    ]);                 
+                try {
+                    foreach($this->bomRows as $row) {                    
+                        BomDetail::create([
+                            'bom_production_id' => $data->id,
+                            'material_type' => $row['bomMaterial'],
+                            'material_id' => $row['bomIngredient'],
+                            'consumption' => $row['bomConsumption'],
+                            'total_quantity' => $row['bomQuantity'],
+                            'satuan_id' => $row['bomUnit'],
+                            'location_id' => $row['bomLocation'],
+                            'level_id' => $row['bomLevel'],
+                            'procurement_id' => $row['bomProcurement'],
+                            'note' => $row['bomNote']
+                        ]); 
+                    }
+                    $this->reset();
+                    $this->dispatch('success', 'BOM Detail successfully created');      
+                    $this->dispatch('bom-modal-close'); 
+                } catch (\Exception $e) {
+                    $data->delete(); 
+                    $this->dispatch('error', $e->getMessage());
                 } 
-                $this->reset();
-                $this->dispatch('success', 'BOM Detail successfully created');      
-                $this->dispatch('bom-modal-close'); 
             }
         } catch (\Exception $e) {
             $this->dispatch('error', $e->getMessage());

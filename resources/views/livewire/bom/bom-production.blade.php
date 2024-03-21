@@ -9,7 +9,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>No. Bill of Materials</th>
                             <th>No. Order Production</th>
                             <th>Order Production Date</th>
                             <th>MD Name</th>
@@ -21,9 +20,8 @@
                         <tbody>
                             @foreach ($data as $key => $d)
                                 <tr wire:key="{{ $d->id }}">
-                                    <td></td>
-                                    <td><b>-</b></td>
-                                    <td>{{ $d->order_production_no }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td><b>{{ $d->order_production_no }}</b></td>
                                     <td>{{ $d->order_production_date }}</td>
                                     <td>{{ $d->pic->name }}</td>
                                     <td>{{ $d->buyer->buyer_name }}</td>
@@ -573,7 +571,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="btn-link" wire:click="addRowUpdate">Add</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn me-auto" data-bs-toggle="modal"
