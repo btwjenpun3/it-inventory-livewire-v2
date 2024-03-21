@@ -91,4 +91,9 @@ class MasterController extends Controller
     {
         return view('pages.master.master-location');
     }
+
+    public function bomLevel()
+    {
+        return view('pages.master.master-bom-level');
+    }
 }

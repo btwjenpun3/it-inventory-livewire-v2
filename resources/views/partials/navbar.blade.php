@@ -5,9 +5,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
-            {{-- <a href=".">
-                <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
-            </a> --}}
+            <a href="#">
+                <img src="/img/logo.png" width="130" height="42" alt="Kindy Data Coonsulting">
+            </a>
         </h1>
         <div class="collapse navbar-collapse" id="sidebar-menu">
             <ul class="navbar-nav pt-lg-3">
@@ -220,6 +220,16 @@
                                     </svg>
                                     Location
                                 </a>
+                                <a class="dropdown-item" href="{{ route('master.bom.level') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
+                                    BOM Level
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -241,7 +251,7 @@
                             </svg>
                         </span>
                         <span class="nav-link-title">
-                            Sales
+                            Marketing
                         </span>
                     </a>
                     <div class="dropdown-menu @if (request()->is('*marketing*')) show @endif">
@@ -255,7 +265,17 @@
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
                                     </svg>
-                                    Order Production
+                                    PO Buyer
+                                </a>
+                                <a class="dropdown-item" href="{{ route('marketing.list') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
+                                    PO Buyer List
                                 </a>
                                 <a class="dropdown-item" href="{{ route('marketing.index') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -292,12 +312,33 @@
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('approval.index') }}">
-                                    Order Production
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
+                                    PO Buyer
                                 </a>
                                 <a class="dropdown-item" href="{{ route('approval.list.approved') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     Approved List
                                 </a>
                                 <a class="dropdown-item" href="{{ route('approval.list.rejected') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     Rejected List
                                 </a>
                             </div>
@@ -326,22 +367,50 @@
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     BOM Production
                                 </a>
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     Allocation
                                 </a>
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     Non-Allocation
                                 </a>
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-point">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                    </svg>
                                     General
                                 </a>
                             </div>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown @if (request()->is('*bill-of-material*')) active @endif">
+                <li class="nav-item dropdown @if (request()->is('*purchasing*')) active @endif">
                     <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -359,7 +428,7 @@
                             Purchasing
                         </span>
                     </a>
-                    <div class="dropdown-menu @if (request()->is('*bill-of-material*')) show @endif">
+                    <div class="dropdown-menu @if (request()->is('*purchasing*')) show @endif">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
@@ -369,7 +438,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown @if (request()->is('*bill-of-material*')) active @endif">
+                <li class="nav-item dropdown @if (request()->is('*exim*')) active @endif">
                     <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -387,7 +456,7 @@
                             EXIM
                         </span>
                     </a>
-                    <div class="dropdown-menu @if (request()->is('*bill-of-material*')) show @endif">
+                    <div class="dropdown-menu @if (request()->is('*exim*')) show @endif">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
@@ -397,7 +466,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown @if (request()->is('*bill-of-material*')) active @endif">
+                <li class="nav-item dropdown @if (request()->is('*warehouse*')) active @endif">
                     <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -415,7 +484,7 @@
                             Warehouse
                         </span>
                     </a>
-                    <div class="dropdown-menu @if (request()->is('*bill-of-material*')) show @endif">
+                    <div class="dropdown-menu @if (request()->is('*warehouse*')) show @endif">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
@@ -431,7 +500,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown @if (request()->is('*bill-of-material*')) active @endif">
+                <li class="nav-item dropdown @if (request()->is('*accounting*')) active @endif">
                     <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -449,7 +518,7 @@
                             Accounting
                         </span>
                     </a>
-                    <div class="dropdown-menu @if (request()->is('*bill-of-material*')) show @endif">
+                    <div class="dropdown-menu @if (request()->is('*accounting*')) show @endif">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">
@@ -459,7 +528,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown @if (request()->is('*bill-of-material*')) active @endif">
+                <li class="nav-item dropdown @if (request()->is('*custom*')) active @endif">
                     <a class="nav-link dropdown-toggle" href="#navbar-extra" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -477,7 +546,7 @@
                             Custom
                         </span>
                     </a>
-                    <div class="dropdown-menu @if (request()->is('*bill-of-material*')) show @endif">
+                    <div class="dropdown-menu @if (request()->is('*custom*')) show @endif">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item" href="{{ route('bom.production') }}">

@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Master\MasterArticle::create([
             'article_code' => 'ART200',
-            'article_name' => 'Sepatu Adidas Air',
-            'description' => 'Adidas Air X45',
+            'article_name' => 'Sepatu Adidas reBook',
+            'description' => 'Adidas reBook X45',
             'buyer_id' => 1
         ]);
         \App\Models\Master\MasterArticle::create([
@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Master\MasterPic::create([
             'name' => 'Helmi',
-            'title' => 'Gudang',
+            'title' => 'Manager Sales',
             'email' => 'muhamadkelmi@gmail.com'
         ]);
 
@@ -94,5 +94,53 @@ class DatabaseSeeder extends Seeder
         \App\Models\Master\MasterMaterialType::create([
             'material_type' => 'FG',
         ]);
+
+        \App\Models\Master\MasterWarehouse::create([
+            'warehouse_code' => 'WAREHOUSE1',
+            'warehouse_name' => 'Warehouse 1'
+        ]);
+        \App\Models\Master\MasterWarehouse::create([
+            'warehouse_code' => 'WAREHOUSE2',
+            'warehouse_name' => 'Warehouse 2'
+        ]);
+
+        \App\Models\Master\MasterRak::create([
+            'rak_code' => 'RAK1',
+            'rak_name' => 'Rak 1 - Cotton'
+        ]);
+
+        \App\Models\Master\MasterLocation::create([
+            'location_code' => 'WR-01-01',
+            'location_name' => 'Warehouse 1 - Rak 1',
+            'warehouse_id' => 1,
+            'rak_id' => 1
+        ]);
+
+        \App\Models\Master\MasterMaterial::create([
+            'material_code' => 'M-1',
+            'description' => 'Cotton',
+            'satuan_id' => 4,
+            'material_type_id' => 4
+        ]);
+        \App\Models\Master\MasterMaterial::create([
+            'material_code' => 'M-2',
+            'description' => 'Thread',
+            'satuan_id' => 4,
+            'material_type_id' => 4
+        ]);
+
+        \App\Models\Master\MasterBomLevel::create([
+            'bom_level' => '0',
+        ]);
+        \App\Models\Master\MasterBomLevel::create([
+            'bom_level' => '1',
+        ]);
+        \App\Models\Master\MasterBomLevel::create([
+            'bom_level' => '2',
+        ]);
+        \App\Models\Master\MasterBomLevel::create([
+            'bom_level' => '3',
+        ]);
+
     }
 }

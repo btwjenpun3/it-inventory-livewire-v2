@@ -11,4 +11,9 @@ class MarketingController extends Controller
     {
         return view('pages.marketing.marketing');
     }
+
+    public function list()
+    {
+        return view('pages.marketing.po-buyer-list');
+    }
 }

@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('bom_name');
             $table->string('bom_date');
             $table->string('description');
+            $table->unsignedBigInteger('material_type_id');
+            $table->foreign('material_type_id')->references('id')->on('master_material_types')->onDelete('cascade');
+            $table->string('status');
             $table->timestamps();
         });
     }

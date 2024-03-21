@@ -42,6 +42,7 @@ Route::prefix('/master')
         Route::get('/rak', 'rak')->name('rak');
         Route::get('/warehouse', 'warehouse')->name('warehouse');
         Route::get('/location', 'location')->name('location');
+        Route::get('/bom-level', 'bomLevel')->name('bom.level');
     });
 
 Route::prefix('/marketing')
@@ -49,6 +50,7 @@ Route::prefix('/marketing')
     ->controller(MarketingController::class)
     ->group(function() {
         Route::get('/', 'index')->name('index');
+        Route::get('/list', 'list')->name('list');
     });
 
 Route::prefix('/approval')

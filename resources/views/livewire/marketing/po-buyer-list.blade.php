@@ -1,4 +1,5 @@
 <div>
+
     {{-- Table --}}
 
     <div class="col-lg-12">
@@ -8,6 +9,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>No. OP</th>
                             <th>No. PO Buyer</th>
                             <th>PO Buyer Date</th>
                             <th>Due Date</th>
@@ -19,31 +21,38 @@
                         <tbody>
                             @foreach ($data as $index => $d)
                                 <tr wire:key="{{ $d->id }}">
-                                    <td>{{ $data->firstItem() + $index }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        @if ($d->order_production_no)
+                                            {{ $d->order_production_no }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td><b>{{ $d->po_buyer_no }}</b></td>
                                     <td>{{ $d->po_buyer_date }}</td>
                                     <td>{{ $d->due_date }}</td>
                                     <td>
                                         @switch($d->validate)
-                                            @case('Waiting')
-                                                <span class="badge bg-warning text-warning-fg">Need validate</span>
+                                            @case('Approve')
+                                                <span class="badge bg-success text-success-fg">Approved</span>
+                                            @break
+
+                                            @case('Reject')
+                                                <span class="badge bg-danger text-danger-fg">Rejected</span>
                                             @break
 
                                             @default
+                                                <span class="badge bg-warning text-warning-fg">Waiting</span>
                                         @endswitch
                                     </td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
-                                            @switch($d->validate)
-                                                @case('Waiting')
-                                                    <button class="btn-link" data-bs-toggle="modal" data-bs-target="#show-modal"
-                                                        wire:click="show({{ $d->id }})">
-                                                        Show
-                                                    </button>
-                                                @break
-
-                                                @default
-                                            @endswitch
+                                            <button class="btn-link" data-bs-toggle="modal"
+                                                data-bs-backdrop="false"data-bs-target="#show-modal"
+                                                wire:click="show({{ $d->id }})">
+                                                Show
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -71,7 +80,7 @@
         <div class="modal-dialog modal-full-width modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"></h5>
+                    <h5 class="modal-title">Order Production Detail : #{{ $order_production_no }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div wire:target="updateConfirm" wire:loading>
@@ -82,7 +91,7 @@
                 <div wire:target="updateConfirm" wire:loading.remove>
                     <div class="modal-body">
                         <div class="col-md-12 text-center">
-                            <h2 class="bg-primary text-primary-fg py-2">PO Buyer</h2>
+                            <h2 class="bg-primary text-primary-fg py-2">Order Production</h2>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-4">
@@ -151,9 +160,14 @@
                             </thead>
                             <tbody>
                                 @if (isset($articles))
+                                    @php
+                                        $i = 1;
+                                    @endphp
                                     @foreach ($articles as $article)
                                         <tr>
-                                            <td class="w-7">{{ $loop->iteration }}</td>
+                                            <td class="w-7">
+                                                {{ $i++ }}
+                                            </td>
                                             <td>
                                                 {{ $article->article->article_name }}
                                             </td>
@@ -170,39 +184,10 @@
                         </table>
                         <div class="col-md-12 mt-3">
                             <div class="row">
-                                <div class="col-md-8 d-flex justify-content-start align-self-end">
-                                    <div class="text-center mx-6">
-                                        <button class="btn btn-danger" data-bs-toggle="collapse"
-                                            data-bs-target="#reject-collapse">
-                                            Reject
-                                        </button>
-                                        <div class="collapse mt-3" id="reject-collapse">
-                                            <div class="card card-body">
-                                                <p>Are you sure want to reject this Order Production ?</p>
-                                                <button class="btn btn-danger" wire:click="reject"
-                                                    wire:loading.attr="disabled">
-                                                    Yes
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-center mx-6">
-                                        <button class="btn btn-success" data-bs-toggle="collapse"
-                                            data-bs-target="#approve-collapse">
-                                            Approve
-                                        </button>
-                                        <div class="collapse mt-3" id="approve-collapse">
-                                            <div class="card card-body">
-                                                <p>Are you sure want to approve this Order Production ?</p>
-                                                <button class="btn btn-success" wire:click="approve"
-                                                    wire:loading.attr="disabled">
-                                                    Yes
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-6">
+
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label class="form-label">
@@ -266,21 +251,4 @@
             </div>
         </div>
     </div>
-
-    @script
-        <script>
-            $wire.on('success', (data) => {
-                toastr.success(data);
-            });
-            $wire.on('error', (data) => {
-                toastr.error(data);
-            });
-            $wire.on('show-modal-close', (data) => {
-                $('#show-modal').modal('hide');
-            });
-            $wire.on('delete-modal-close', (data) => {
-                $('#delete-modal').modal('hide');
-            });
-        </script>
-    @endscript
 </div>
