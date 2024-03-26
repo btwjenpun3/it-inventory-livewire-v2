@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\DasboardController;
 use App\Http\Controllers\Marketing\MarketingController;
 use App\Http\Controllers\Master\MasterController;
 use App\Http\Controllers\Ppic\MaterialRequest;
+use App\Http\Controllers\Purchasing\PurchasingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,4 +76,11 @@ Route::prefix('/ppic')
     ->controller(MaterialRequest::class)
     ->group(function() {
         Route::get('/material-request', 'materialRequest')->name('material.request');
+    });
+
+Route::prefix('/purchasing')
+    ->name('purchasing.')
+    ->controller(PurchasingController::class)
+    ->group(function() {
+        Route::get('/po-supplier', 'poSupplier')->name('po.supplier');
     });

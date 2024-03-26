@@ -15,19 +15,26 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('bom_production_id');
             $table->foreign('bom_production_id')->references('id')->on('bom_productions')->onDelete('cascade');
+
+            $table->string('material_code');
+            $table->string('material_description');
+            $table->string('material_color');
+            $table->string('material_size');
+            $table->string('material_unit');
             $table->string('material_type');
-            $table->unsignedBigInteger('material_id');
-            $table->foreign('material_id')->references('id')->on('master_materials')->onDelete('cascade');
+
             $table->string('consumption');
             $table->string('total_quantity');
-            $table->unsignedBigInteger('satuan_id');
-            $table->foreign('satuan_id')->references('id')->on('master_satuans')->onDelete('cascade');
-            $table->unsignedBigInteger('location_id');
-            $table->foreign('location_id')->references('id')->on('master_locations')->onDelete('cascade');
-            $table->unsignedBigInteger('level_id');
-            $table->foreign('level_id')->references('id')->on('master_bom_levels')->onDelete('cascade');
-            $table->unsignedBigInteger('procurement_id');
-            $table->foreign('procurement_id')->references('id')->on('master_procurements')->onDelete('cascade');
+
+            $table->string('location_code');
+            $table->string('location_name');
+            $table->string('location_warehouse_code');
+            $table->string('location_rak_code');
+
+            $table->string('level');
+            $table->string('procurement');
+            $table->string('lead_time')->nullable();
+            
             $table->string('note')->nullable();
             $table->string('quantity_request')->nullable();
             $table->boolean('status')->nullable();

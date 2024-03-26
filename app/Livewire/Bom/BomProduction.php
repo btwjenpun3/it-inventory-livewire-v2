@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Bom;
 
+use App\Models\Master\MasterGroup as Group;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Marketing\Article;
@@ -15,14 +16,16 @@ use App\Models\Marketing\Marketing;
 use App\Models\Master\MasterBomLevel as BomLevel;
 use App\Models\Master\MasterLocation as Location;
 use App\Models\Bom\BomProductionDetail;
+use App\Models\Bom\BomProductionDetailSubtotal as SubTotal;
+use Monolog\Level;
 
 class BomProduction extends Component
 {
-    public $id, $order_production_no, $po_buyer_no, $pic_name, $buyer_code, $buyer_name;
+    public $id, $order_production_no, $po_buyer_no, $pic_name, $pic_title, $buyer_code, $buyer_name;
 
     public $article_id, $article_no, $article_no_;
 
-    public $bomId, $bomCode, $bomName, $bomDescription, $bomStatus, $bomMaterialType, $bomArticleQuantity, $bomArticleUnit, $bomNote;
+    public $bomId, $bomCode, $bomName, $bomDescription, $bomStatus, $bomMaterialType, $bomArticleQuantity, $bomArticleSize, $bomArticleUnit, $bomNote;
     public $bomRows = [];
 
     /**
@@ -34,6 +37,10 @@ class BomProduction extends Component
     public $bomProcurement_, $bomNote_;
     public $bomRows_ = [];
     public $bomDetails;
+
+    /**
+     * Public Property for Fixed
+     */
 
     public function mount()
     {
@@ -70,11 +77,14 @@ class BomProduction extends Component
         unset($this->bomRows[$key]);
     }
 
-    public function fillIngredientDescription($key, $value, $edit)
+    public function fillIngredientContent($key, $value, $edit)
     {
         $data = Material::where('id', $value)->first();
-        if($edit === 'false') {            
+        if($edit === 'false') {     
+            $this->bomRows[$key]['bomMaterialType'] = $data->materialType->material_type;       
             $this->bomRows[$key]['bomMaterialDescription'] = $data->description; 
+            $this->bomRows[$key]['bomColor'] = $data->color;
+            $this->bomRows[$key]['bomUnit'] = $data->satuan->satuan;
         } else {
             $this->bomMaterialDescription_[$key] = $data->description;
         }          
@@ -97,22 +107,23 @@ class BomProduction extends Component
         $this->id = $id;
         $this->order_production_no = $data->order_production_no;
         $this->po_buyer_no = $data->po_buyer_no;
-        $this->pic_name = $data->pic->name;
-        $this->buyer_code = $data->buyer->code_buyer;
-        $this->buyer_name = $data->buyer->buyer_name;
+        $this->pic_name = $data->pic_name;
+        $this->pic_title = $data->pic_title;
+        $this->buyer_code = $data->buyer_code;
+        $this->buyer_name = $data->buyer_name;
 
     }  
 
     public function showBom($id)
     {
-        if(!isset($this->bomRows)) {
-            $this->mount();
-        }      
+        $this->reset('bomRows');
+        $this->addRow();     
         $data = Article::where('id', $id)->first();
         $this->article_id           = $id;
-        $this->article_no           = $data->article->article_name;    
+        $this->article_no           = $data->article_name;
+        $this->bomArticleSize       = $data->size;     
         $this->bomArticleQuantity   = $data->quantity; 
-        $this->bomArticleUnit       = $data->unit->satuan;
+        $this->bomArticleUnit       = $data->unit;
         $year = Carbon::now()->year;
         $getLastNumber = Bom::where('bom_no', 'LIKE', '%/BOM/' . $year)->latest()->first();     
         if(isset($getLastNumber)) {
@@ -123,34 +134,34 @@ class BomProduction extends Component
         }   
         $this->bomCode = $prefix . '/BOM/' . $year;  
     }
+
     public function showBomDetail($id)
     {
         $data = Article::with('bom')->where('id', $id)->first();  
         $this->articleId            = $id;    
-        $this->article_no_          = $data->article->article_code;
+        $this->article_no_          = $data->article_code;
         $this->bomId_               = $data->bom->id;
         $this->bomCode_             = $data->bom->bom_no;
         $this->bomName_             = $data->bom->bom_name;
         $this->bomDescription_      = $data->bom->description;
-        $this->bomStatus_           = $data->bom->status;
-        $this->bomMaterialType_     = $data->bom->materialType->material_type;
+        $this->bomStatus_           = $data->bom->bom_status;
         $this->bomArticleQuantity   = $data->quantity;
-        $this->bomArticleUnit       = $data->unit->satuan;
+        $this->bomArticleUnit       = $data->unit;
         $this->bomDetails           = $data->bom->details;
-        foreach($data->bom->details as $d) {
-            $this->bomDetailId_[$d->id]             = $d->id;
-            $this->bomDetailMaterialType_[$d->id]   = $d->material_type;
-            $this->bomIngredient_[$d->id]           = $d->material->id;
-            $this->bomMaterialDescription_[$d->id]  = $d->material->description;
-            $this->bomConsumption_[$d->id]          = $d->consumption;
-            $this->bomTotalQuantity_[$d->id]        = $d->total_quantity; 
-            $this->bomUnit_[$d->id]                 = $d->unit->id; 
-            $this->bomLocation_[$d->id]             = $d->location->id;
-            $this->bomLevel_[$d->id]                = $d->level->id;
-            $this->bomProcurement_[$d->id]          = $d->procurement->id;
-            $this->bomNote_[$d->id]                 = $d->note;
-        }   
-    }
+        // foreach($data->bom->details as $d) {
+        //     $this->bomDetailId_[$d->id]             = $d->id;
+        //     $this->bomDetailMaterialType_[$d->id]   = $d->material_type;
+        //     $this->bomIngredient_[$d->id]           = $d->material->id;
+        //     $this->bomMaterialDescription_[$d->id]  = $d->material->description;
+        //     $this->bomConsumption_[$d->id]          = $d->consumption;
+        //     $this->bomTotalQuantity_[$d->id]        = $d->total_quantity; 
+        //     $this->bomUnit_[$d->id]                 = $d->unit->id; 
+        //     $this->bomLocation_[$d->id]             = $d->location->id;
+        //     $this->bomLevel_[$d->id]                = $d->level->id;
+        //     $this->bomProcurement_[$d->id]          = $d->procurement->id;
+        //     $this->bomNote_[$d->id]                 = $d->note;
+        // }   
+    }    
 
     public function saveUpdate($id)
     {
@@ -179,7 +190,6 @@ class BomProduction extends Component
             'bomName' => 'required',
             'bomDescription' => 'required',
             'bomStatus' => 'required',
-            'bomMaterialType' => 'required'
         ]);
         try {
             $data = Bom::create([
@@ -189,23 +199,38 @@ class BomProduction extends Component
                 'bom_date' => Carbon::now(),
                 'description' => $this->bomDescription,
                 'material_type_id' => $this->bomMaterialType,
-                'status' => $this->bomStatus
+                'bom_status' => $this->bomStatus,
+                'status' => 0
             ]);
             if($data) {
                 try {
-                    foreach($this->bomRows as $row) {                    
-                        BomDetail::create([
+                    foreach($this->bomRows as $row) { 
+                        $material = Material::where('id', $row['bomIngredient'])->first();
+                        $location = Location::where('id', $row['bomLocation'])->first();
+                        $level = BomLevel::where('id', $row['bomLevel'])->first();  
+                        $procurement = Procurement::where('id', $row['bomProcurement'])->first();   
+                        $leadTime = isset($row['bomLeadTime']) ? $row['bomLeadTime'] : null;               
+                        $bom = BomDetail::create([
                             'bom_production_id' => $data->id,
                             'material_type' => $row['bomMaterial'],
-                            'material_id' => $row['bomIngredient'],
+                            'material_code' => $material->material_code,
+                            'material_name' => $material->material_name,
+                            'material_description' => $material->description,
+                            'material_color' => $material->color,
+                            'material_size' => $row['bomSize'],
+                            'material_unit' => $material->satuan->satuan,
+                            'material_type' => $material->materialType->material_type,
                             'consumption' => $row['bomConsumption'],
                             'total_quantity' => $row['bomQuantity'],
-                            'satuan_id' => $row['bomUnit'],
-                            'location_id' => $row['bomLocation'],
-                            'level_id' => $row['bomLevel'],
-                            'procurement_id' => $row['bomProcurement'],
+                            'location_code' => $location->location_code,
+                            'location_name' => $location->location_name,
+                            'location_warehouse_code' => $location->warehouse->warehouse_code,
+                            'location_rak_code' => $location->rak->rak_code,
+                            'lead_time' => $leadTime,
+                            'level' => $level->bom_level,
+                            'procurement' => $procurement->procurement,
                             'note' => $row['bomNote']
-                        ]); 
+                        ]);                                             
                     }
                     $this->reset();
                     $this->dispatch('success', 'BOM Detail successfully created');      
@@ -238,6 +263,7 @@ class BomProduction extends Component
             'materialTypes' => MaterialType::get(),
             'procurements' => Procurement::get(),
             'locations' => Location::get(),
+            'groups' => Group::get(),
             'units' => Unit::get(),
             'levels' => BomLevel::get()
         ]);

@@ -144,7 +144,9 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Article / Style</th>
+                                    <th>Article Code</th>
+                                    <th>Article Name</th>
+                                    <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                 </tr>
@@ -155,13 +157,19 @@
                                         <tr>
                                             <td class="w-7">{{ $loop->iteration }}</td>
                                             <td>
-                                                {{ $article->article->article_name }}
+                                                {{ $article->article_code }}
+                                            </td>
+                                            <td>
+                                                {{ $article->article_name }}
+                                            </td>
+                                            <td>
+                                                {{ $article->size }}
                                             </td>
                                             <td>
                                                 {{ $article->quantity }}
                                             </td>
                                             <td>
-                                                {{ $article->unit->satuan }}
+                                                {{ $article->unit }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -210,7 +218,7 @@
                                             </label>
                                         </div>
                                         <div class="col-md-8 border-bottom">
-                                            {{ $pic }}
+                                            {{ $pic_name }} - {{ $pic_title }}
                                         </div>
                                     </div>
                                     <div class="row mt-3">

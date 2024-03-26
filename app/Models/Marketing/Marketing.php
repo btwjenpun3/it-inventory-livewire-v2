@@ -2,6 +2,8 @@
 
 namespace App\Models\Marketing;
 
+use App\Livewire\Ppic\MaterialRequest;
+use App\Models\Bom\BomProductionDetailSubtotal;
 use App\Models\Master\MasterBuyer;
 use App\Models\Master\MasterCurrency;
 use App\Models\Master\MasterPic;
@@ -38,5 +40,10 @@ class Marketing extends Model
     public function articles()
     {
         return $this->hasMany(Article::class, 'marketing_id', 'id');
+    }
+
+    public function subTotals()
+    {
+        return $this->hasMany(BomProductionDetailSubtotal::class, 'marketing_id');
     }
 }

@@ -16,7 +16,12 @@ class Marketing extends Component
 {   
     public $id, $po_buyer_no, $po_buyer_date, $buyer_code, $buyer_name, $shipping_date, $delivery_date, $due_date, $currency, $discount, $down_payment, $tax, $pic; 
     
-    public $po_buyer_no_, $po_buyer_date_, $buyer_code_, $buyer_name_, $shipping_date_, $delivery_date_, $due_date_, $articles_, $currency_, $discount_, $down_payment_, $tax_, $pic_, $validate_;
+    public $po_buyer_no_, $po_buyer_date_, $buyer_code_, $buyer_name_, $shipping_date_, $delivery_date_, $due_date_, $articles_, $currency_, $discount_, $down_payment_, $tax_, $validate_;
+
+    /**
+     * Show PIC
+     */
+    public $pic_name_, $pic_title_;
 
     public $no = 1;
     public $rows = [];
@@ -24,22 +29,22 @@ class Marketing extends Component
     protected function rules()
     {
         $rules = [
-            'po_buyer_no' => 'required',
+            'po_buyer_no'   => 'required',
             'po_buyer_date' => 'required',
-            'buyer_code' => 'required',
+            'buyer_code'    => 'required',
             'shipping_date' => 'required',
             'delivery_date' => 'required',
-            'due_date' => 'required',
-            'currency' => 'required',
-            'discount' => 'required',
-            'down_payment' => 'required',
-            'tax' => 'required',
-            'pic' => 'required',
+            'due_date'      => 'required',
+            'currency'      => 'required',
+            'discount'      => 'required',
+            'down_payment'  => 'required',
+            'tax'           => 'required',
+            'pic'           => 'required',
         ];
         foreach ($this->rows as $key => $value) {
-            $rules["rows.{$key}.article"] = 'required';
-            $rules["rows.{$key}.quantity"] = 'required';
-            $rules["rows.{$key}.unit"] = 'required';
+            $rules["rows.{$key}.article"]   = 'required';
+            $rules["rows.{$key}.quantity"]  = 'required';
+            $rules["rows.{$key}.unit"]      = 'required';
         }
         return $rules;
     }
@@ -59,27 +64,36 @@ class Marketing extends Component
     {
         $this->validate();
         try {
+            $pic = Pic::where('id', $this->pic)->first();
             $marketing = Md::create([
-                'po_buyer_no' => $this->po_buyer_no,
+                'po_buyer_no'   => $this->po_buyer_no,
                 'po_buyer_date' => $this->po_buyer_date,
-                'buyer_id' => $this->buyer_code,
+                'buyer_code'    => $this->buyer_code,
+                'buyer_name'    => $this->buyer_name,
                 'shipping_date' => $this->shipping_date,
                 'delivery_date' => $this->delivery_date,
-                'due_date' => $this->due_date,
-                'discount' => $this->discount,
-                'down_payment' => $this->down_payment,
-                'tax' => $this->tax,
-                'pic_id' => $this->pic,
-                'currency_id' => $this->currency,
-                'validate' => 'Waiting'
+                'due_date'      => $this->due_date,
+                'discount'      => $this->discount,
+                'down_payment'  => $this->down_payment,
+                'tax'           => $this->tax,
+                'pic_name'      => $pic->name,
+                'pic_title'     => $pic->title,
+                'pic_email'     => $pic->email,
+                'currency'      => $this->currency,
+                'validate'      => 'Waiting'
             ]);
             if($marketing) {
                 foreach($this->rows as $row) {
+                   $data =  MasterArticle::where('id', $row['article'])->first();
+                   $unit = Unit::where('id', $row['unit'])->first();
                     Article::create([
                         'marketing_id' => $marketing->id,
-                        'master_article_id' => $row['article'],
-                        'quantity' => $row['quantity'],
-                        'unit_id' => $row['unit']
+                        'article_code' => $data->article_code,
+                        'article_name' => $data->article_name,
+                        'size'         => $row['size'],
+                        'description'  => $data->description,
+                        'quantity'     => $row['quantity'],
+                        'unit'         => $unit->satuan
                     ]);
                 }
                 $this->dispatch('success', 'Data successfully saved');
@@ -91,10 +105,10 @@ class Marketing extends Component
     }
    
 
-    public function fillBuyerName($id = null)
+    public function fillBuyerName($buyerCode = null)
     {
-        if ($id) {
-            $data = Buyer::where('id', $id)->first();
+        if ($buyerCode) {
+            $data = Buyer::where('buyer_code', $buyerCode)->first();
             $this->buyer_name = $data->buyer_name;
         } else {
             $this->buyer_name = null;
@@ -122,14 +136,15 @@ class Marketing extends Component
         $data = Md::where('id', $id)->first();
         $this->po_buyer_no_ = $data->po_buyer_no;
         $this->po_buyer_date_ = $data->po_buyer_date;
-        $this->buyer_code_ = isset($data->buyer->code_buyer) ? $data->buyer->code_buyer : null;
-        $this->buyer_name_ = isset($data->buyer->buyer_name) ? $data->buyer->buyer_name : null;
+        $this->buyer_code_ = $data->buyer_code;
+        $this->buyer_name_ = $data->buyer_name;
         $this->shipping_date_ = $data->shipping_date;
         $this->delivery_date_ = $data->delivery_date;
         $this->due_date_ = $data->due_date;
         $this->articles_ = $data->articles;
-        $this->pic_ = isset($data->pic->name) ? $data->pic->name : null;
-        $this->currency_ = isset($data->currency->currency_code) ? $data->currency->currency_code : null;
+        $this->pic_name_ = $data->pic_name;
+        $this->pic_title_ = $data->pic_title;
+        $this->currency_ = $data->currency;
         $this->discount_ = $data->discount;
         $this->down_payment_ = $data->down_payment;
         $this->tax_ = $data->tax;

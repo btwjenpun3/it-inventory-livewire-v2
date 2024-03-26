@@ -1,4 +1,5 @@
 <div>
+
     {{-- Table --}}
 
     <div class="col-lg-12">
@@ -126,7 +127,7 @@
                                                 wire:change="fillBuyerName($event.target.value)">
                                                 <option value="">-- Select --</option>
                                                 @foreach ($buyers as $buyer)
-                                                    <option value="{{ $buyer->id }}">{{ $buyer->code_buyer }} -
+                                                    <option value="{{ $buyer->buyer_code }}">{{ $buyer->buyer_code }} -
                                                         {{ $buyer->buyer_name }}</option>
                                                 @endforeach
                                             </select>
@@ -210,6 +211,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Article / Style</th>
+                                        <th>Size</th>
                                         <th>Quantity</th>
                                         <th>UoM</th>
                                         <th></th>
@@ -241,6 +243,14 @@
                                                             Article</a>.
                                                     </p>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                    class="form-control @error('rows.{{ $key }}.size') is-invalid @enderror"
+                                                    wire:model="rows.{{ $key }}.size">
+                                                @error('rows.{{ $key }}.size')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </td>
                                             <td>
                                                 <input type="number"
@@ -342,7 +352,7 @@
                                                     wire:model="currency">
                                                     <option value="">-- Select --</option>
                                                     @foreach ($currencies as $currency)
-                                                        <option value="{{ $currency->id }}">
+                                                        <option value="{{ $currency->currency_code }}">
                                                             {{ $currency->currency_code }} -
                                                             {{ $currency->currency_name }}
                                                         </option>
@@ -531,7 +541,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Article / Style</th>
+                                        <th>Article Code</th>
+                                        <th>Article Name</th>
+                                        <th>Size</th>
                                         <th>Quantity</th>
                                         <th>Unit</th>
                                     </tr>
@@ -542,13 +554,19 @@
                                             <tr>
                                                 <td> {{ $loop->iteration }} </td>
                                                 <td>
-                                                    {{ $article->article->article_name }}
+                                                    {{ $article->article_code }}
+                                                </td>
+                                                <td>
+                                                    {{ $article->article_name }}
+                                                </td>
+                                                <td>
+                                                    {{ $article->size }}
                                                 </td>
                                                 <td>
                                                     {{ $article->quantity }}
                                                 </td>
                                                 <td>
-                                                    {{ $article->unit->satuan }}
+                                                    {{ $article->unit }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -570,7 +588,7 @@
                                             </label>
                                         </div>
                                         <div class="col-md-8 border-bottom">
-                                            {{ $pic_ }}
+                                            {{ $pic_name_ }} - {{ $pic_title_ }}
                                         </div>
                                     </div>
                                     <div class="row mt-3">

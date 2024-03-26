@@ -30,26 +30,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-6 mt-3">
-                        <label class="form-label required">Buyer</label>
-                        @if (count($buyers) > 0)
-                            <select class="form-select @error('buyerCode') is-invalid @enderror" wire:model="buyerCode">
-                                <option value="">-- Select --</option>
-                                @foreach ($buyers as $b)
-                                    <option value="{{ $b->id }}">{{ $b->code_buyer }} - {{ $b->buyer_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('buyerCode')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        @else
-                            <p class="mt-3">
-                                Not found. Please create from <a href="{{ route('master.buyer') }}">Master
-                                    Buyer</a>.
-                            </p>
-                        @endif
-                    </div>
                     <div class="col-md-12 ms-auto">
                         <button type="submit" wire:loading.attr="disabled" class="btn btn-success mt-3"
                             wire:click="save">Tambah</button>
@@ -71,7 +51,6 @@
                             <th>Article Code</th>
                             <th>Article Code</th>
                             <th>Description</th>
-                            <th>Buyer</th>
                             <th class="w-1"></th>
                         </tr>
                     </thead>
@@ -83,7 +62,6 @@
                                     <td>{{ $d->article_code }}</td>
                                     <td>{{ $d->article_name }}</td>
                                     <td>{{ $d->description }}</td>
-                                    <td>{{ $d->buyer->buyer_name }}</td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <button class="btn-link" data-bs-toggle="modal"
@@ -156,20 +134,6 @@
                                         class="form-control @error('description_') is-invalid @enderror"
                                         wire:model="description_">
                                     @error('description_')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mt-3">
-                                    <label class="form-label">Buyer</label>
-                                    <select class="form-control @error('buyerCode_') is-invalid @enderror"
-                                        wire:model="buyerCode_">
-                                        <option value="">-- Select --</option>
-                                        @foreach ($buyers as $b)
-                                            <option value="{{ $b->id }}">{{ $b->code_buyer }} -
-                                                {{ $b->buyer_name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('buyerCode_')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

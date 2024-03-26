@@ -21,8 +21,8 @@ class Article extends Model
 
     public function bom()
     {
-        return $this->hasOne(BomProduction::class, 'article_id');
-    }
+        return $this->hasOne(BomProduction::class, 'article_id', 'id');
+    }    
 
     public function article()
     {

@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\Testing\Testing::factory(20)->create();
 
         \App\Models\Master\MasterBuyer::create([
-            'code_buyer' => 'BUY100',
+            'buyer_code' => 'BUY100',
             'buyer_name' => 'PT Jaya Sentosa',
             'state' => 'Indonesia'
         ]);
@@ -25,20 +25,17 @@ class DatabaseSeeder extends Seeder
         \App\Models\Master\MasterArticle::create([
             'article_code' => 'ART100',
             'article_name' => 'Sepatu Adidas Air',
-            'description' => 'Adidas Air X44',
-            'buyer_id' => 1
+            'description' => 'Adidas Air X44'
         ]);
         \App\Models\Master\MasterArticle::create([
             'article_code' => 'ART200',
             'article_name' => 'Sepatu Adidas reBook',
-            'description' => 'Adidas reBook X45',
-            'buyer_id' => 1
+            'description' => 'Adidas reBook X45'
         ]);
         \App\Models\Master\MasterArticle::create([
             'article_code' => 'ART300',
             'article_name' => 'Kaos Kaki Adidas',
-            'description' => 'Adidas Shock XG1',
-            'buyer_id' => 1
+            'description' => 'Adidas Shock XG1'
         ]);
 
         \App\Models\Master\MasterSatuan::create([
@@ -117,15 +114,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Master\MasterMaterial::create([
-            'material_code' => 'M-1',
+            'material_code' => '0001',
             'description' => 'Cotton',
+            'color' => 'White',
             'satuan_id' => 4,
             'material_type_id' => 4
         ]);
         \App\Models\Master\MasterMaterial::create([
-            'material_code' => 'M-2',
+            'material_code' => '0002',
             'description' => 'Thread',
             'satuan_id' => 4,
+            'color' => 'Blue',
             'material_type_id' => 4
         ]);
 
@@ -141,6 +140,30 @@ class DatabaseSeeder extends Seeder
         \App\Models\Master\MasterBomLevel::create([
             'bom_level' => '3',
         ]);
+
+        \App\Models\Master\MasterGroup::create([
+            'group' => 'Production Line 1',
+        ]);
+        \App\Models\Master\MasterGroup::create([
+            'group' => 'Production Line 2',
+        ]);
+
+        \App\Models\Master\MasterJenisBc::create([
+            'jenis_bc' => 'BC 2.3',
+            'keterangan' => 'Import dari Luar Negeri'
+        ]);
+        \App\Models\Master\MasterJenisBc::create([
+            'jenis_bc' => 'BC 4.0',
+            'keterangan' => 'Pembelian Dalam Neger'
+        ]);
+        \App\Models\Master\MasterJenisBc::create([
+            'jenis_bc' => 'BC 4.1',
+            'keterangan' => 'Penjualan Dalam Negeri'
+        ]);
+        \App\Models\Master\MasterJenisBc::create([
+            'jenis_bc' => 'BC 2.5',
+            'keterangan' => 'Penjualan Dalam Negeri ex. Import'
+        ]);       
 
     }
 }

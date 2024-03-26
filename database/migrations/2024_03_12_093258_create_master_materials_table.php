@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('material_code')->unique();
             $table->string('description');   
+            $table->string('color');
             $table->unsignedBigInteger('satuan_id')->nullable();         
             $table->foreign('satuan_id')->references('id')->on('master_satuans')->onDelete('set null');
             $table->unsignedBigInteger('material_type_id')->nullable();         

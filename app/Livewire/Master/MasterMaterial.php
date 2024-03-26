@@ -14,9 +14,9 @@ class MasterMaterial extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $id, $material_code, $description, $material_type_id, $satuan_id;
+    public $id, $material_code, $description, $material_type_id, $satuan_id, $color;
 
-    public $material_code_, $description_, $material_type_id_, $satuan_id_;
+    public $material_code_, $description_, $material_type_id_, $satuan_id_, $color_;
 
     public function updateConfirm($id)
     {
@@ -26,6 +26,7 @@ class MasterMaterial extends Component
         $this->description_         = $data->description;
         $this->material_type_id_    = $data->material_type_id;
         $this->satuan_id_           = $data->satuan_id;
+        $this->color_               = $data->color;
     }
 
     public function update()
@@ -34,7 +35,8 @@ class MasterMaterial extends Component
             'material_code_'    => 'required',
             'description_'      => 'required',
             'material_type_id_' => 'required',
-            'satuan_id_'        => 'nullable'
+            'satuan_id_'        => 'nullable',
+            'color_'            => 'required',
         ]);
         try {
             Material::where('id', $this->id)->update([
@@ -42,6 +44,7 @@ class MasterMaterial extends Component
                 'description'       => $this->description_,
                 'material_type_id'  => $this->material_type_id_,
                 'satuan_id'         => $this->satuan_id_,
+                'color'             => $this->color_,
             ]);
             $this->dispatch('success', 'Berhasil merubah data');
             $this->dispatch('update-modal-close');
@@ -58,6 +61,7 @@ class MasterMaterial extends Component
             'description'       => 'required',
             'material_type_id'  => 'required',
             'satuan_id'         => 'required',
+            'color'             => 'required',
         ]);
         try {
             Material::create($validate);

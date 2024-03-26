@@ -132,6 +132,18 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'path' => storage_path('logs/master_error.log'),
         ],
+
+        'material_request' => [
+            'driver' => 'single',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'path' => storage_path('logs/material_request.log'),
+        ],
+
+        'purchasing' => [
+            'driver' => 'single',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'path' => storage_path('logs/purchasing.log'),
+        ],
     ],
 
 ];

@@ -16,7 +16,7 @@ class BomProduction extends Model
 
     public function details()
     {
-        return $this->hasMany(BomProductionDetail::class, 'bom_production_id');
+        return $this->hasMany(BomProductionDetail::class, 'bom_production_id', 'id');
     }
 
     public function materialType()
@@ -27,5 +27,10 @@ class BomProduction extends Model
     public function article()
     {
         return $this->belongsTo(Article::class, 'article_id');
-    }    
+    }   
+    
+    public function subTotals()
+    {
+        return $this->hasMany(BomProductionDetailSubtotal::class, 'bom_production_id', 'id');
+    }
 }

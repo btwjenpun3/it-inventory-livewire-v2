@@ -23,6 +23,14 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mt-3">
+                        <label class="form-label required">Color</label>
+                        <input type="text" class="form-control @error('color') is-invalid @enderror"
+                            wire:model="color">
+                        @error('color')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mt-3">
                         <label class="form-label required">Material Type</label>
                         @if (count($material) > 0)
                             <select class="form-select @error('material_type_id') is-invalid @enderror"
@@ -88,6 +96,7 @@
                             <th>Material Code</th>
                             <th>Description</th>
                             <th>Material Type</th>
+                            <th>Color</th>
                             <th>Satuan</th>
                             <th class="w-1"></th>
                         </tr>
@@ -100,6 +109,7 @@
                                     <td>{{ $d->material_code }}</td>
                                     <td>{{ $d->description }}</td>
                                     <td>{{ $d->materialType->material_type }}</td>
+                                    <td>{{ $d->color }}</td>
                                     <td>{{ $d->satuan->satuan }}</td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
@@ -161,6 +171,14 @@
                                 <input type="text" class="form-control @error('description_') is-invalid @enderror"
                                     wire:model="description_">
                                 @error('description_')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <label class="form-label required">Color</label>
+                                <input type="text" class="form-control @error('color_') is-invalid @enderror"
+                                    wire:model="color_">
+                                @error('color_')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

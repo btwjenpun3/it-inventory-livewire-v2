@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('master_buyers', function (Blueprint $table) {
             $table->id();
-            $table->string('code_buyer');
+            $table->string('buyer_code');
             $table->string('buyer_name');
             $table->string('state')->nullable();
             $table->string('email')->nullable();

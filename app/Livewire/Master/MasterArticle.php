@@ -3,7 +3,6 @@
 namespace App\Livewire\Master;
 
 use App\Models\Master\MasterArticle as Article;
-use App\Models\Master\MasterBuyer as Buyer;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -13,9 +12,9 @@ class MasterArticle extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
-    public $id, $articleCode, $articleName, $description, $buyerCode;
+    public $id, $articleCode, $articleName, $description;
 
-    public $articleCode_, $articleName_, $description_, $buyerCode_;
+    public $articleCode_, $articleName_, $description_;
 
     public function updateConfirm($id)
     {
@@ -24,7 +23,6 @@ class MasterArticle extends Component
         $this->articleCode_  = $data->article_code;
         $this->articleName_  = $data->article_name;
         $this->description_  = $data->description;
-        $this->buyerCode_    = $data->buyer_id;
     }
 
     public function update()
@@ -33,14 +31,12 @@ class MasterArticle extends Component
             'articleCode_'   => 'required',
             'articleName_'   => 'required',
             'description_'   => 'required',
-            'buyerCode_'     => 'required'
         ]);
         try {
             Article::where('id', $this->id)->update([
                 'article_code'    => $this->articleCode_,
                 'article_name'    => $this->articleName_,
                 'description'     => $this->description_,
-                'buyer_id'        => $this->buyerCode_,
             ]);
             $this->dispatch('success', 'Berhasil merubah data');
             $this->dispatch('update-modal-close');
@@ -56,14 +52,12 @@ class MasterArticle extends Component
             'articleCode'    => 'required',
             'articleName'    => 'required',
             'description'    => 'required',
-            'buyerCode'      => 'required',
         ]);
         try {
             Article::create([
                 'article_code' => $this->articleCode,
                 'article_name' => $this->articleName,
                 'description' => $this->description,
-                'buyer_id' => $this->buyerCode
             ]);
             $this->reset();
             $this->dispatch('success', 'Master Data Article berhasil di Tambah');
@@ -93,8 +87,7 @@ class MasterArticle extends Component
     public function render()
     {
         return view('livewire.master.master-article', [
-            'data' => Article::orderBy('id', 'asc')->paginate(10),
-            'buyers' => Buyer::get()
+            'data' => Article::orderBy('id', 'asc')->paginate(10)
         ]);
     }
 }

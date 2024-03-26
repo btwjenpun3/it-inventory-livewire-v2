@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('article_code');
             $table->string('article_name');
             $table->string('description');
-            $table->unsignedBigInteger('buyer_id');
-            $table->foreign('buyer_id')->references('id')->on('master_buyers')->onDelete('cascade');
             $table->timestamps();
         });
     }
