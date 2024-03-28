@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('supplier_currency')->nullable();
             $table->string('supplier_eta')->nullable();
             $table->string('supplier_pic')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

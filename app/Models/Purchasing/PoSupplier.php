@@ -16,4 +16,9 @@ class PoSupplier extends Model
     {
         return $this->belongsTo(Marketing::class, 'marketing_id');
     }
+
+    public function poSupplierDetails()
+    {
+        return $this->hasMany(PoSupplierDetail::class, 'po_supplier_id');
+    }
 }

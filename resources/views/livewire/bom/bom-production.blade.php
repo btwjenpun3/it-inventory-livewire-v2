@@ -51,7 +51,7 @@
         <div class="modal-dialog modal-fullscreen modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Bill of Materials</h5>
+                    <h5 class="modal-title">Work Order</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div wire:target="show" wire:loading>
@@ -100,6 +100,7 @@
                                             <th>#</th>
                                             <th>Article Code</th>
                                             <th>Article Name</th>
+                                            <th>Color</th>
                                             <th>Size</th>
                                             <th>Quantity</th>
                                             <th>UoM</th>
@@ -112,6 +113,7 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $article->article_code }}</td>
                                                 <td>{{ $article->article_name }}</td>
+                                                <td>{{ $article->color }}</td>
                                                 <td>{{ $article->size }}</td>
                                                 <td>{{ $article->quantity }}</td>
                                                 <td>{{ $article->unit }}</td>

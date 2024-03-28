@@ -71,7 +71,7 @@ class ApprovalOrderProduction extends Component
     public function render()
     {
         return view('livewire.approval.approval-order-production', [
-            'data' => Marketing::where('validate', 'Waiting')->paginate(10)
+            'data' => Marketing::where('validate', 'Waiting')->orderBy('id', 'desc')->paginate(10)
         ]);
     }
 }

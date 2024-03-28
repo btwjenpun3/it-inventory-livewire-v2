@@ -96,4 +96,9 @@ class MasterController extends Controller
     {
         return view('pages.master.master-bom-level');
     }
+
+    public function color()
+    {
+        return view('pages.master.master-color');
+    }
 }

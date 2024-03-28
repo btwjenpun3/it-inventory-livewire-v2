@@ -7,6 +7,7 @@ use App\Models\Purchasing\PoSupplier as Po;
 use App\Models\Marketing\Marketing;
 use App\Models\Master\MasterSupplier;
 use App\Models\Master\MasterCurrency;
+use App\Models\Purchasing\PoSupplierDetail;
 use App\Models\Bom\BomProductionDetailSubtotal as Subtotal;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -25,7 +26,7 @@ class PoSupplier extends Component
     public $opNo, $poSupplierNo, $poSupplierDate, $poSupplierGrouping;   
 
     /**
-     * Show PO Supplier
+     * Show Create PO Supplier
      */
     public $showPoSupplierId, $showPoSupplierNo, $showPoSupplierOp, $showPoSupplierDate;
     public $materialRequiredLists;
@@ -36,6 +37,15 @@ class PoSupplier extends Component
      */
     public $supplierCode, $supplierName, $supplierState, $supplierAddress, $supplierEmail, $supplierPhone;
     public $supplierGrouping, $supplierPaymentTerm, $supplierShipmentTerm, $supplierCurrency, $supplierEta, $supplierPic;
+
+    /**
+     * Show PO Supplier
+     */
+    public $showPoSupplierId_, $showPoSupplierNo_, $showPoSupplierOp_, $showPoSupplierDate_;
+    public $supplierCode_, $supplierName_, $supplierState_, $supplierAddress_, $supplierEmail_, $supplierPhone_;
+    public $supplierGrouping_, $supplierPaymentTerm_, $supplierShipmentTerm_, $supplierCurrency_, $supplierEta_, $supplierPic_;
+    public $materialRequiredLists_;
+    public $materialDetails_;
 
     public function mount($number)
     {        
@@ -82,7 +92,7 @@ class PoSupplier extends Component
         unset($this->materialDetails[$key]);
     }
     
-    public function showPoSupplier($id)
+    public function showCreatePoSupplier($id)
     {
         $this->reset('materialDetails');
         $this->addMaterialRow();
@@ -94,10 +104,12 @@ class PoSupplier extends Component
         $this->materialRequiredLists    = $data->op->subTotals;        
     }
 
-    public function fillMaterialDescription($key)
+    public function fillMaterialDescriptionAndUom($key)
     {
         $data = Po::find($this->showPoSupplierId);
-        $this->materialDetails[$key]['materialName'] = $data->op->subTotals->where('material_code', $this->materialDetails[$key]['materialCode'])->first()->material_name;
+        $this->materialDetails[$key]['materialDescription'] = $data->op->subTotals->where('material_code', $this->materialDetails[$key]['materialCode'])->first()->material_name;
+        $this->materialDetails[$key]['materialUom'] = $data->op->subTotals->where('material_code', $this->materialDetails[$key]['materialCode'])->first()->material_unit;
+        $this->materialDetails[$key]['materialStock'] = 2000;
     }
 
     public function fillSupplierContent()
@@ -124,6 +136,7 @@ class PoSupplier extends Component
         $this->validate([
             'materialDetails.*.materialCode' => 'required',
             'materialDetails.*.materialQuantityPurchase' => 'required',
+            'materialDetails.*.materialUom' => 'required',
         ]);     
         try {
             $create = Po::where('id', $this->showPoSupplierId)->update([
@@ -138,12 +151,52 @@ class PoSupplier extends Component
                 'supplier_shipment_term'    => $this->supplierShipmentTerm,
                 'supplier_currency'         => $this->supplierCurrency,
                 'supplier_eta'              => $this->supplierEta,
-                'supplier_pic'              => $this->supplierPic
+                'supplier_pic'              => $this->supplierPic,
+                'status'                    => 'Completed'
             ]);
+            if($create) {
+                foreach($this->materialDetails as $material) {
+                    PoSupplierDetail::create([
+                        'po_supplier_id'        => $this->showPoSupplierId,
+                        'material_code'         => $material['materialCode'],
+                        'material_description'  => $material['materialDescription'],
+                        'stock'                 => $material['materialStock'],
+                        'purchase_quantity'     => $material['materialQuantityPurchase'],
+                        'material_unit'         => $material['materialUom']
+                    ]);
+                    $data = Po::find($this->showPoSupplierId);
+                    $result = $data->op->subTotals->where('material_code', $material['materialCode'])->first();
+                    $result->update(['material_purchased' => $result->material_purchased + $material['materialQuantityPurchase']]);
+                }
+                $this->dispatch('success', 'PO Supplier successfully created');
+            }
         } catch (\Exception $e) {
             Log::channel('purchasing')->error('(PO Supplier) Theres an error : ' . $e->getMessage());
             $this->dispatch('error', 'Theres an error, please contact admin!');
         }
+    }
+
+    public function showPoSupplier($id)
+    {        
+        $data = Po::find($id);
+        $this->showPoSupplierId_         = $id;
+        $this->showPoSupplierNo_         = $data->po_no;
+        $this->showPoSupplierOp_         = $data->op->order_production_no;
+        $this->showPoSupplierDate_       = $data->po_date;
+        $this->supplierCode_             = $data->supplier_code;
+        $this->supplierName_             = $data->supplier_name;
+        $this->supplierState_            = $data->supplier_state;
+        $this->supplierAddress_          = $data->supplier_address;
+        $this->supplierEmail_            = $data->supplier_email;
+        $this->supplierPhone_            = $data->supplier_phone;
+        $this->supplierGrouping_         = $data->supplier_grouping;
+        $this->supplierPaymentTerm_      = $data->supplier_payment_term;
+        $this->supplierShipmentTerm_     = $data->supplier_shipment_term;
+        $this->supplierCurrency_         = $data->supplier_currency;
+        $this->supplierEta_              = $data->supplier_eta;
+        $this->supplierPic_              = $data->supplier_pic;
+        $this->materialRequiredLists_    = $data->op->subTotals;   
+        $this->materialDetails_          = $data->poSupplierDetails;     
     }
 
     public function render()

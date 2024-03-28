@@ -146,6 +146,7 @@
                                     <th>#</th>
                                     <th>Article Code</th>
                                     <th>Article Name</th>
+                                    <th>Color</th>
                                     <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
@@ -161,6 +162,9 @@
                                             </td>
                                             <td>
                                                 {{ $article->article_name }}
+                                            </td>
+                                            <td>
+                                                {{ $article->color }}
                                             </td>
                                             <td>
                                                 {{ $article->size }}

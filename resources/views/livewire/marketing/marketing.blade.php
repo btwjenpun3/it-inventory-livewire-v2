@@ -211,6 +211,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Article / Style</th>
+                                        <th>Color</th>
                                         <th>Size</th>
                                         <th>Quantity</th>
                                         <th>UoM</th>
@@ -223,8 +224,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 @if (count($articles) > 0)
-                                                    <select
-                                                        class="form-control @error('rows.{{ $key }}.article') is-invalid @enderror"
+                                                    <select class="form-control {!! $errors->has('rows.' . $key . '.article') ? 'is-invalid' : '' !!}"
                                                         wire:model="rows.{{ $key }}.article">
                                                         <option value="">-- Select --</option>
                                                         @foreach ($articles as $a)
@@ -245,25 +245,34 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <input type="text"
-                                                    class="form-control @error('rows.{{ $key }}.size') is-invalid @enderror"
-                                                    wire:model="rows.{{ $key }}.size">
-                                                @error('rows.{{ $key }}.size')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                                @if (count($colors) > 0)
+                                                    <select class="form-control {!! $errors->has('rows.' . $key . '.color') ? 'is-invalid' : '' !!}"
+                                                        wire:model="rows.{{ $key }}.color">
+                                                        <option value="">-- Select --</option>
+                                                        @foreach ($colors as $c)
+                                                            <option value="{{ $c->color }}">
+                                                                {{ $c->color }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <p class="mt-3">
+                                                        Not found. Please create from <a
+                                                            href="{{ route('master.color') }}">Master
+                                                            Color</a>.
+                                                    </p>
+                                                @endif
                                             </td>
                                             <td>
-                                                <input type="number"
-                                                    class="form-control @error('rows.{{ $key }}.quantity') is-invalid @enderror"
+                                                <input type="text" class="form-control {!! $errors->has('rows.' . $key . '.size') ? 'is-invalid' : '' !!}"
+                                                    wire:model="rows.{{ $key }}.size">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control {!! $errors->has('rows.' . $key . '.quantity') ? 'is-invalid' : '' !!}"
                                                     wire:model="rows.{{ $key }}.quantity">
-                                                @error('rows.{{ $key }}.quantity')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
                                             </td>
                                             <td>
                                                 @if (count($units) > 0)
-                                                    <select
-                                                        class="form-select @error('rows.{{ $key }}.unit') is-invalid @enderror"
+                                                    <select class="form-select {!! $errors->has('rows.' . $key . '.unit') ? 'is-invalid' : '' !!}"
                                                         wire:model="rows.{{ $key }}.unit">
                                                         <option value="">-- Select --</option>
                                                         @foreach ($units as $unit)
@@ -272,9 +281,6 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('rows.{{ $key }}.unit')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
                                                 @else
                                                     <p class="mt-3">
                                                         Not found. Please create from <a
@@ -543,6 +549,7 @@
                                         <th>#</th>
                                         <th>Article Code</th>
                                         <th>Article Name</th>
+                                        <th>Color</th>
                                         <th>Size</th>
                                         <th>Quantity</th>
                                         <th>Unit</th>
@@ -558,6 +565,9 @@
                                                 </td>
                                                 <td>
                                                     {{ $article->article_name }}
+                                                </td>
+                                                <td>
+                                                    {{ $article->color }}
                                                 </td>
                                                 <td>
                                                     {{ $article->size }}

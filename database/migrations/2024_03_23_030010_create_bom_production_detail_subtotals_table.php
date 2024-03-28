@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('material_code');
             $table->string('material_name');
             $table->string('material_unit');
+            $table->string('stock');
             $table->string('subtotal');
+            $table->string('required');
             $table->string('material_requested');
+            $table->string('material_purchased')->nullable();
             $table->timestamps();
         });
     }

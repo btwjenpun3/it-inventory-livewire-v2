@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('article_name');
             $table->string('description');
             $table->integer('quantity');
+            $table->string('color');
             $table->string('size');
             $table->string('unit');
             $table->timestamps();

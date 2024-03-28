@@ -45,6 +45,7 @@ Route::prefix('/master')
         Route::get('/warehouse', 'warehouse')->name('warehouse');
         Route::get('/location', 'location')->name('location');
         Route::get('/bom-level', 'bomLevel')->name('bom.level');
+        Route::get('/color', 'color')->name('color');
     });
 
 Route::prefix('/marketing')
@@ -83,4 +84,5 @@ Route::prefix('/purchasing')
     ->controller(PurchasingController::class)
     ->group(function() {
         Route::get('/po-supplier', 'poSupplier')->name('po.supplier');
+        Route::get('/invoice', 'invoice')->name('invoice');
     });

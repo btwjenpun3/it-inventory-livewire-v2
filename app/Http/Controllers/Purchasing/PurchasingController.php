@@ -15,4 +15,9 @@ class PurchasingController extends Controller
             'number' => $call->generateNumber('po-supplier')
         ]);
     }
+
+    public function invoice()
+    {
+        return view('pages.purchasing.invoice');
+    }
 }

@@ -103,6 +103,8 @@ class MaterialRequest extends Component
                     'material_name' => $material['material_description'],
                     'material_unit' => $material['unit'],
                     'subtotal' => $material['total_quantity'],
+                    'stock' => $material['stock'],
+                    'required' => $material['stock'] - $material['total_quantity'],
                     'material_requested' => $material['material_requested']
                 ]);
             }     
@@ -116,7 +118,7 @@ class MaterialRequest extends Component
 
     public function render()
     {
-        $data = Marketing::orderby('id', 'desc')->get();
+        $data = Marketing::orderby('id', 'desc')->paginate(10);
         return view('livewire.ppic.material-request', [
             'data' => $data,
             'details' => BomProduction::when(isset($this->id), function($query) {

@@ -9,6 +9,7 @@ use App\Models\Master\MasterBuyer as Buyer;
 use App\Models\Master\MasterSatuan as Unit;
 use App\Models\Master\MasterPic as Pic;
 use App\Models\Master\MasterCurrency as Currency;
+use App\Models\Master\MasterColor as Color;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 
@@ -40,12 +41,7 @@ class Marketing extends Component
             'down_payment'  => 'required',
             'tax'           => 'required',
             'pic'           => 'required',
-        ];
-        foreach ($this->rows as $key => $value) {
-            $rules["rows.{$key}.article"]   = 'required';
-            $rules["rows.{$key}.quantity"]  = 'required';
-            $rules["rows.{$key}.unit"]      = 'required';
-        }
+        ];        
         return $rules;
     }
 
@@ -61,8 +57,15 @@ class Marketing extends Component
     }
 
     public function save()
-    {
+    {        
         $this->validate();
+        $this->validate([
+            'rows.*.article' => 'required',
+            'rows.*.color' => 'required',
+            'rows.*.size' => 'required', 
+            'rows.*.quantity' => 'required',
+            'rows.*.unit' => 'required'
+        ]);
         try {
             $pic = Pic::where('id', $this->pic)->first();
             $marketing = Md::create([
@@ -93,11 +96,14 @@ class Marketing extends Component
                         'size'         => $row['size'],
                         'description'  => $data->description,
                         'quantity'     => $row['quantity'],
+                        'color'        => $row['color'],
                         'unit'         => $unit->satuan
                     ]);
                 }
                 $this->dispatch('success', 'Data successfully saved');
                 $this->dispatch('create-modal-close');
+                $this->reset();
+                $this->addRow();
             }
         } catch (\Exception $e) {
             $this->dispatch('error', $e->getMessage());        
@@ -176,7 +182,8 @@ class Marketing extends Component
             'buyers' => Buyer::get(),
             'units' => Unit::get(),
             'pics' => Pic::get(),
-            'currencies' => Currency::get()
+            'currencies' => Currency::get(),
+            'colors' => Color::get()
         ]);
     }
 }
